@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="MSBuildLogAnalyzer.TimelineTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:model="clr-namespace:MSBuildLogAnalyzer.Model"
+             xmlns:converters="clr-namespace:MSBuildLogAnalyzer.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:BuildTimelineToPathDataConverter x:Key="BuildTimelineToPathDataConverter" />
+    </UserControl.Resources>
+    <Grid Background="Transparent">
+        <Button x:Name="StepIntoButton"
+                Content="Step into (Enter)"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="8,8,0,0"
+                Padding="8"
+                Click="StepIntoButton_OnClick" />
+        <Button x:Name="StepOutButton"
+                Content="Step out (Backspace)"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="117,8,0,0"
+                Padding="8"
+                Click="StepOutButton_OnClick" />
+        <StackPanel Margin="8,47,8,0"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+            <TextBlock x:Name="BreadcrumbTextBlock"
+                       Text="Open a log file to analyze!"
+                       Margin="0,0,8,0" />
+            <TextBlock x:Name="DurationTextBlock"
+                       Text=""
+                       FontWeight="Bold" />
+        </StackPanel>
+        <ListBox Margin="8,68,8,8"
+                 x:Name="BuildTimelineListBox"
+                 Grid.IsSharedSizeScope="True"
+                 HorizontalContentAlignment="Stretch"
+                 VirtualizingStackPanel.IsVirtualizing="False"
+                 PreviewMouseDoubleClick="BuildTimelineListBox_OnPreviewMouseDoubleClick">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type model:BuildTimeline}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="col1" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="col2" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Name}"
+                                   Margin="0,0,8,0"
+                                   FontWeight="{Binding FontWeight}" />
+                        <TextBlock Text="{Binding Duration}"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,0,8,0"
+                                   FontWeight="{Binding FontWeight}" />
+                        <Path Grid.Column="2"
+                              Fill="#ffa3c7d8"
+                              Stroke="#ff77aec8"
+                              StrokeThickness="1"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Data="{Binding Converter={StaticResource BuildTimelineToPathDataConverter}}"
+                              Stretch="Fill" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

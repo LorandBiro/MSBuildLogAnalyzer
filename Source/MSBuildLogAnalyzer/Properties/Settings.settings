@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MSBuildLogAnalyzer.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MSBuildPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files (x86)\MSBuild\14.0\bin\MSBuild.exe</Value>
+    </Setting>
+    <Setting Name="LastSolutionPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

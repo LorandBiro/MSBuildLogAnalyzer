@@ -1,0 +1,45 @@
+﻿<Window x:Class="MSBuildLogAnalyzer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSBuildLogAnalyzer"
+        mc:Ignorable="d"
+        Title="MSBuild Log Analyzer"
+        Height="350"
+        Width="525"
+        WindowState="Maximized">
+    <Grid>
+        <Button x:Name="OpenLogFileButton"
+                Content="_Open log file"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="8,8,0,0"
+                Padding="8"
+                Click="OpenLogFileButton_OnClick" />
+        <Button x:Name="RunBuildButton"
+                Content="_Run build"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="100,8,0,0"
+                Padding="8"
+                Click="RunBuildButton_OnClick" />
+        <TabControl x:Name="TabControl"
+                    Margin="8,47,8,8">
+            <TabItem Header="Timeline">
+                <local:TimelineTab x:Name="TimelineTab" />
+            </TabItem>
+            <TabItem Header="Project summary">
+                <local:ProjectSummaryTab x:Name="ProjectSummaryTab"
+                                         StepIntoRequested="ProjectSummaryTab_OnStepIntoRequested" />
+            </TabItem>
+            <TabItem Header="Project timeline">
+                <local:ProjectTimelineTab x:Name="ProjectTimelineTab"
+                                          StepIntoRequested="ProjectTimelineTab_OnStepIntoRequested" />
+            </TabItem>
+            <TabItem Header="Target summary">
+                <local:TargetSummaryTab x:Name="TargetSummaryTab" />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
