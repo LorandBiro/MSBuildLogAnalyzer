@@ -27,12 +27,12 @@
                         projectBuild =>
                         new ProjectTimeline
                             {
-                                ProjectBuild = projectBuild.Key,
-                                Name = Path.GetFileName(projectBuild.Key.Name),
-                                RealWork = projectBuild.Key.RealWork,
-                                StartedAt = projectBuild.Key.StartedAt,
-                                CompletedAt = projectBuild.Key.CompletedAt,
-                                Duration = $"{projectBuild.Key.RealDuration.TotalSeconds:0.00} s",
+                                ProjectBuild = projectBuild,
+                                Name = projectBuild.ShortName,
+                                RealWork = projectBuild.RealWork,
+                                StartedAt = projectBuild.StartedAt,
+                                CompletedAt = projectBuild.CompletedAt,
+                                Duration = $"{projectBuild.RealDuration.TotalSeconds:0.00} s",
                                 RootStartedAt = rootProjectBuild.StartedAt,
                                 RootCompletedAt = rootProjectBuild.CompletedAt
                             });

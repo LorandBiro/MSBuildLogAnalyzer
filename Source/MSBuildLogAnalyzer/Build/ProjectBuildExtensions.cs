@@ -6,14 +6,14 @@
 
     public static class ProjectBuildExtensions
     {
-        public static IEnumerable<KeyValuePair<ProjectBuild, ProjectBuild[]>> GetAllMergedRealProjectBuilds(this ProjectBuild rootProjectBuild)
+        public static IEnumerable<ProjectBuild> GetAllMergedRealProjectBuilds(this ProjectBuild rootProjectBuild)
         {
             return
                 rootProjectBuild.GetAllProjectBuilds()
-                    .Where(projectBuild => projectBuild.HasAnyRealWorkTarget)
+                    .Where(projectBuild => projectBuild.RealWork.Any())
                     .GroupBy(projectBuild => projectBuild.Name)
                     .Where(projectBuildGroup => projectBuildGroup.Any())
-                    .Select(projectBuildGroup => new KeyValuePair<ProjectBuild, ProjectBuild[]>(projectBuildGroup.Merge(), projectBuildGroup.ToArray()));
+                    .Select(projectBuildGroup => projectBuildGroup.Merge());
         }
 
         public static IEnumerable<TargetBuild> GetAllTargetBuilds(this ProjectBuild parentProjectBuild)

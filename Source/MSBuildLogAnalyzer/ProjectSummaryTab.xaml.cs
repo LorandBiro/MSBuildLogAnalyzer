@@ -21,18 +21,18 @@
 
         public void SetRootProjectBuild(ProjectBuild rootProjectBuild)
         {
-            List<KeyValuePair<ProjectBuild, ProjectBuild[]>> projectBuilds = rootProjectBuild.GetAllMergedRealProjectBuilds().ToList();
+            List<ProjectBuild> projectBuilds = rootProjectBuild.GetAllMergedRealProjectBuilds().ToList();
 
-            TimeSpan maxDuration = projectBuilds.Max(projectBuild => projectBuild.Key.RealDuration);
+            TimeSpan maxDuration = projectBuilds.Max(projectBuild => projectBuild.RealDuration);
             IEnumerable<ProjectSummary> buildTimelines =
                 projectBuilds.Select(
                     projectBuild =>
                     new ProjectSummary
                         {
-                            ProjectBuild = projectBuild.Key,
-                            Name = Path.GetFileName(projectBuild.Key.Name),
-                            Duration = $"{projectBuild.Key.RealDuration.TotalSeconds:0.00} s",
-                            DurationRatio = projectBuild.Key.RealDuration.TotalSeconds / maxDuration.TotalSeconds,
+                            ProjectBuild = projectBuild,
+                            Name = Path.GetFileName(projectBuild.Name),
+                            Duration = $"{projectBuild.RealDuration.TotalSeconds:0.00} s",
+                            DurationRatio = projectBuild.RealDuration.TotalSeconds / maxDuration.TotalSeconds,
                         });
 
             this.ProjectSummaryListBox.Items.Clear();

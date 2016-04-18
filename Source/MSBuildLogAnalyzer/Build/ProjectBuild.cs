@@ -30,18 +30,8 @@ namespace MSBuildLogAnalyzer.Build
             this.Targets = targets;
             this.ThreadId = threadId;
             this.ChildBuilds = childBuilds.ToList();
-
-            this.HasAnyRealWorkTarget = this.ChildBuilds.OfType<TargetBuild>().Any(x => x.RealWork);
-            if (this.HasAnyRealWorkTarget)
-            {
-                this.RealWork = GetRealWork(this.ChildBuilds).ToList();
-                this.RealDuration = new TimeSpan(this.RealWork.Sum(x => (x.CompletedAt - x.StartedAt).Ticks));
-            }
-            else
-            {
-                this.RealWork = new[] { new RealWorkSegment(this.StartedAt, this.CompletedAt) };
-                this.RealDuration = this.Duration;
-            }
+            this.RealWork = GetRealWork(this.ChildBuilds).ToList();
+            this.RealDuration = new TimeSpan(this.RealWork.Sum(x => (x.CompletedAt - x.StartedAt).Ticks));
         }
 
         public override BuildKind Kind => BuildKind.Project;
@@ -53,8 +43,6 @@ namespace MSBuildLogAnalyzer.Build
         public string ThreadId { get; }
 
         public IReadOnlyList<BuildBase> ChildBuilds { get; }
-
-        public bool HasAnyRealWorkTarget { get; }
         
         public IReadOnlyList<RealWorkSegment> RealWork { get; }
 
@@ -83,7 +71,7 @@ namespace MSBuildLogAnalyzer.Build
 
         private static IEnumerable<RealWorkSegment> GetRealWork(IEnumerable<BuildBase> childBuilds)
         {
-            List<TargetBuild> targetBuilds = childBuilds.OfType<TargetBuild>().Where(x => x.RealWork).OrderBy(x => x.StartedAt).ToList();
+            List<TargetBuild> targetBuilds = childBuilds.OfType<TargetBuild>().Where(x => x.RealWork && x.Duration > TimeSpan.Zero).OrderBy(x => x.StartedAt).ToList();
             if (targetBuilds.Count == 0)
             {
                 yield break;
